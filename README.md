@@ -27,5 +27,16 @@ A simple **Flappy Bird** clone built using ***Dart*** and ***Flutter***. This ga
    ```bash
    git clone git@github.com:kev065/flappy-bird.git
    cd flappy-bird
-   flutter run 
+   ```
+
+2. Install Flutter dependencies:
+
+   ```bash
+   flutter pub get
+   ```
+
+3. Run the app:
+
+   ```bash
+   flutter run
    ```
