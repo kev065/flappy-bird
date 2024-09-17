@@ -42,3 +42,18 @@ A simple **Flappy Bird** clone built using ***Dart*** and ***Flutter***. This ga
    ```bash
    flutter run
    ```
+
+### How to Play
+
+- Tap the screen to make the bird jump.
+- Avoid hitting the pipes.
+- Keep the bird within the screen boundaries.
+- The game ends when the bird hits a pipe or falls off the screen.
+
+## Contributing
+
+If you'd like to contribute to the project, feel free to open a pull request.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE file](https://github.com/kev065/flappy-bird/blob/main/LICENCE) for details.
