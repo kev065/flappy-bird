@@ -51,6 +51,15 @@ class _GameScreenState extends State<GameScreen> {
     });
   }
 
+  // Function to handle jumping
+  void jump() {
+    if (isGameOver) return; // no jump allowed when game is over
+    setState(() {
+      time = 0;
+      initialPosition = birdY;
+    });
+  }
+
   void jump() {
     setState(() {
       time = 0;
