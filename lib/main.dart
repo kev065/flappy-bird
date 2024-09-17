@@ -35,6 +35,8 @@ class _GameScreenState extends State<GameScreen> {
   double pipeWidth = 0.2; // width of the pipe
   List<double> pipeHeights = [0.6, 0.4]; // varying pipe heights
 
+  int score = 0; // keep track of the score
+
   void jump() {
     setState(() {
       time = 0;
