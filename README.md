@@ -12,6 +12,8 @@ A simple **Flappy Bird** clone built using ***Dart*** and ***Flutter***. This ga
 
 ## Screenshots
 
+![start screen screenshot](assets/images/start_screen.png)
+
 ## Getting Started
 
 ### Prerequisites
