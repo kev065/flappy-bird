@@ -38,6 +38,19 @@ class _GameScreenState extends State<GameScreen> {
   int score = 0; // keep track of the score
   bool isGameOver = false; // track game-over state
 
+  // Function to reset the game
+  void resetGame() {
+    setState(() {
+      birdY = 0;
+      pipeX = 1;
+      score = 0;
+      isGameOver = false;
+      gameHasStarted = false;
+      time = 0;
+      initialPosition = birdY;
+    });
+  }
+
   void jump() {
     setState(() {
       time = 0;
