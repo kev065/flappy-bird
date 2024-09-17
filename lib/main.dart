@@ -78,6 +78,35 @@ class _GameScreenState extends State<GameScreen> {
     return false;
   }
 
+  // Start the game loop
+  void startGame() {
+    gameHasStarted = true;
+    Timer.periodic(Duration(milliseconds: 50), (timer) {
+      time += 0.05;
+      height = gravity * time * time + velocity * time;
+
+      setState(() {
+        birdY = initialPosition - height;
+
+        // move the pipes
+        if (pipeX < -1.1) {
+          pipeX = 1;
+          pipeHeights.shuffle();
+          score++; // increase score after passing each pipe
+        } else {
+          pipeX -= 0.05;
+        }
+      });
+
+      // Check for collisions or game-over condition
+      if (checkCollision()) {
+        timer.cancel();
+        gameHasStarted = false;
+        isGameOver = true; // set game over state
+      }
+    });
+  }
+
   void jump() {
     setState(() {
       time = 0;
