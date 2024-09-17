@@ -60,6 +60,24 @@ class _GameScreenState extends State<GameScreen> {
     });
   }
 
+  // Function to detect collisions with pipes or screen boundaries
+  bool checkCollision() {
+    // Check if bird hits the bottom or top of the screen
+    if (birdY > 1 || birdY < -1) {
+      return true;
+    }
+
+    // Check if bird is within the x range of the pipe
+    if (pipeX < 0.2 && pipeX > -0.2) {
+      // Check if bird hits the pipes vertically
+      if (birdY < -1 + pipeHeights[0] || birdY > 1 - pipeHeights[1]) {
+        return true; // collision detected
+      }
+    }
+
+    return false;
+  }
+
   void jump() {
     setState(() {
       time = 0;
