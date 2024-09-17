@@ -23,7 +23,7 @@ class GameScreen extends StatefulWidget {
 }
 
 class _GameScreenState extends State<GameScreen> {
-  static double birdY = 0;
+  static double birdY = 0; // bird's vertical position
   double initialPosition = birdY;
   double height = 0;
   double time = 0;
@@ -107,43 +107,14 @@ class _GameScreenState extends State<GameScreen> {
     });
   }
 
-  void jump() {
-    setState(() {
-      time = 0;
-      initialPosition = birdY;
-    });
-  }
-
-  void startGame() {
-    gameHasStarted = true;
-    Timer.periodic(Duration(milliseconds: 50), (timer) {
-      time += 0.05;
-      height = gravity * time * time + velocity * time;
-      setState(() {
-        birdY = initialPosition - height;
-
-        // move the pipes
-        if (pipeX < -1.1) {
-          pipeX = 1;
-          pipeHeights.shuffle();
-        } else {
-          pipeX -= 0.05;
-        }
-      });
-
-      if (birdY > 1) {
-        timer.cancel();
-        gameHasStarted = false;
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         if (gameHasStarted) {
           jump();
+        } else if (isGameOver) {
+          resetGame(); // restart the game on tap after game over
         } else {
           startGame();
         }
@@ -181,11 +152,23 @@ class _GameScreenState extends State<GameScreen> {
                     alignment: Alignment(0, -0.3),
                     child: gameHasStarted
                         ? Text("")
-                        : Text(
-                            "TAP TO PLAY",
-                            style: TextStyle(fontSize: 20, color: Colors.white),
-                          ),
-                  )
+                        : isGameOver
+                            ? Text(
+                                "GAME OVER\nSCORE: $score\nTAP TO RESTART",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.white,
+                                ),
+                              )
+                            : Text(
+                                "TAP TO PLAY",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.white,
+                                ),
+                              ),
+                  ),
                 ],
               ),
             ),
@@ -193,8 +176,10 @@ class _GameScreenState extends State<GameScreen> {
               child: Container(
                 color: Colors.green,
                 child: Center(
-                  child:
-                      Text("Score: 0", style: TextStyle(color: Colors.white)),
+                  child: Text(
+                    "Score: $score",
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
               ),
             ),
@@ -211,8 +196,7 @@ class MyBird extends StatelessWidget {
     return Container(
       height: 60,
       width: 60,
-      child: Image.asset(
-          'assets/images/bird.png'), // Add a bird image in your assets
+      child: Image.asset('assets/images/bird.png'), // bird image
     );
   }
 }
@@ -222,10 +206,11 @@ class MyPipe extends StatelessWidget {
   final double pipeWidth;
   final bool isBottomPipe;
 
-  MyPipe(
-      {required this.pipeHeight,
-      required this.pipeWidth,
-      required this.isBottomPipe});
+  MyPipe({
+    required this.pipeHeight,
+    required this.pipeWidth,
+    required this.isBottomPipe,
+  });
 
   @override
   Widget build(BuildContext context) {
