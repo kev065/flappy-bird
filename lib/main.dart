@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:math';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() => runApp(FlappyBird());
 
@@ -38,8 +39,36 @@ class _GameScreenState extends State<GameScreen> {
   int score = 0; // keep track of the score
   bool isGameOver = false; // track game-over state
 
+  int highScore = 0; // variable to store high score
+
+  @override
+  void initState() {
+    super.initState();
+    _loadHighScore(); // load high score on start
+  }
+
+  // Function to load the high score from SharedPreferences
+  void _loadHighScore() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      highScore = prefs.getInt('highScore') ?? 0; // load high score or set 0
+    });
+  }
+
+  // Function to update the high score in SharedPreferences
+  void _updateHighScore() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (score > highScore) {
+      setState(() {
+        highScore = score;
+      });
+      await prefs.setInt('highScore', highScore); // save high score
+    }
+  }
+
   // Function to reset the game
   void resetGame() {
+    _updateHighScore(); // update high score before resetting
     setState(() {
       birdY = 0;
       pipeX = 1;
